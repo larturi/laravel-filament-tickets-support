@@ -3,19 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
 {
@@ -27,7 +24,12 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->label('Name')->required()->unique()->autofocus(),
+                TextInput::make('name')->label('Name')->required()->unique()
+                    ->autofocus()
+                    ->lazy()
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        $set('slug', str()->slug($state));
+                    }),
                 TextInput::make('slug')->label('Slug')->required()->unique(),
                 Toggle::make('is_active')->label('Is Active')->default(false),
             ]);

@@ -2,7 +2,7 @@
 
 ## Local Mode
 
-1. Crear el .env basado en .env.template y configuarar las variables de la base de datos MySql
+#### Crear el .env basado en .env.template y configuarar las variables de la base de datos MySql
 
 ```bash
 DB_CONNECTION=mysql
@@ -13,31 +13,48 @@ DB_USERNAME=sail
 DB_PASSWORD=password
 ```
 
-2. Levantar los Contenedores con Docker Sail
+#### Levantar los Contenedores con Docker Sail
 
 ```bash
 ./vendor/bin/sail up -d
 ```
 
-3. Ejecutar Migraciones
+#### Ejecutar Migraciones
 
 ```bash
 ./vendor/bin/sail artisan migrate --seed
 ```
 
-4. Generar un usuario con Filament
+#### Generar un usuario con Filament
 
 ```bash
 ./vendor/bin/sail artisan make:filament-user
 ```
 
-5. Entrar a <http://localhost/admin>
+#### Entrar a <http://localhost/admin>
 
-
-### Limpiar cache
+## Limpiar cache
 
 ``` bash
 ./vendor/bin/sail artisan config:cache
 ./vendor/bin/sail artisan route:cache
 ./vendor/bin/sail artisan view:cache
+```
+
+## Crear nuevos models
+
+#### Crear model y migration
+
+```bash
+./vendor/bin/sail artisan make:model Ticket -m
+
+# Edutar en el archivo de migration los campos y luego impactar
+
+./vendor/bin/sail artisan migrate
+```
+
+#### Crear CRUD en Fillament
+
+```bash
+./vendor/bin/sail artisan make:filament-resource TicketResource
 ```

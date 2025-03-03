@@ -47,9 +47,23 @@ DB_PASSWORD=password
 
 ```bash
 ./vendor/bin/sail artisan make:model Ticket -m
+```
 
-# Edutar en el archivo de migration los campos y luego impactar
+#### Editar en el archivo de migration los campos
 
+```bash
+database/migrations/2025_03_01_140051_create_categories_table.php
+```
+
+#### Editar el Model con las relaciones
+
+```bash
+app/models/Ticket.php
+```
+
+#### Impactar en la BD
+
+```bash
 ./vendor/bin/sail artisan migrate
 ```
 

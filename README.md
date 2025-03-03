@@ -55,10 +55,12 @@ DB_PASSWORD=password
 database/migrations/2025_03_01_140051_create_categories_table.php
 ```
 
-#### Editar el Model con las relaciones
+#### Editar el Model con las relaciones y habilitar los campos para el formulario
 
 ```bash
 app/models/Ticket.php
+
+protected $fillable = ['name'];
 ```
 
 #### Impactar en la BD
@@ -72,3 +74,13 @@ app/models/Ticket.php
 ```bash
 ./vendor/bin/sail artisan make:filament-resource TicketResource
 ```
+
+#### Crear Relation Manager en Fillament
+
+```bash
+ ./vendor/bin/sail artisan make:migration "create category_ticket table"
+ 
+ ./vendor/bin/sail artisan migrate
+ 
+ ./vendor/bin/sail artisan make:filament-relation-manager TicketResource categories name
+ ```

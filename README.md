@@ -83,4 +83,18 @@ protected $fillable = ['name'];
  ./vendor/bin/sail artisan migrate
  
  ./vendor/bin/sail artisan make:filament-relation-manager TicketResource categories name
+
+ # Editar los dos models agregando la relacion
+
+ # Category.php
+public function tickets()
+{
+    return $this->belongsToMany(Ticket::class);
+}
+
+# Ticket.php
+ public function categories()
+{
+    return $this->belongsToMany(Category::class);
+}
  ```

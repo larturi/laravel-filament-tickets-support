@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
+use Illuminate\Support\Collection;
+
+
 
 class User extends Authenticatable
 {
@@ -52,17 +56,12 @@ class User extends Authenticatable
     {
         $permissionsArray = [];
 
-        \Log::info($permission);
-
 
         foreach ($this->roles as $role) {
             foreach ($role->permissions as $perm) {
                 $permissionsArray[] = $perm->name;
             }
         }
-
-        \Log::info(collect($permissionsArray)->unique()->contains($permission));
-
-        return collect($permissionsArray)->unique()->contains($permission);
+        return Collection::make($permissionsArray)->unique()->contains($permission);
     }
 }

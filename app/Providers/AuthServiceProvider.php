@@ -21,6 +21,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Gate::before(function ($user) {
+            if ($user) {
+                $user->loadMissing('roles.permissions');
+            }
+            return null;
+        });
     }
 }

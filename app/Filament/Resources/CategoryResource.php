@@ -24,14 +24,22 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->label('Name')->required()->unique()
+                TextInput::make('name')
+                    ->label('Name')
+                    ->required()
+                    ->unique(ignoreRecord: true)
                     ->autofocus()
                     ->lazy()
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         $set('slug', str()->slug($state));
                     }),
-                TextInput::make('slug')->label('Slug')->required()->unique(),
-                Toggle::make('is_active')->label('Is Active')->default(false),
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->required()
+                    ->unique(ignoreRecord: true),
+                Toggle::make('is_active')
+                    ->label('Is Active')
+                    ->default(false)
             ]);
     }
 
@@ -39,9 +47,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Name')->searchable()->sortable(),
-                TextColumn::make('slug')->label('Slug')->searchable()->sortable(),
-                ToggleColumn::make('is_active')->label('Active'),
+                TextColumn::make('name')
+                    ->label('Name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('slug')
+                    ->label('Slug')
+                    ->searchable()
+                    ->sortable(),
+                ToggleColumn::make('is_active')->label('Active')->disabled(!auth()->user()->hasPermission('category_edit'))
             ])
             ->filters([
                 //
@@ -52,7 +66,8 @@ class CategoryResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->hidden(!auth()->user()->hasPermission('category_delete')),
                 ]),
             ]);
     }

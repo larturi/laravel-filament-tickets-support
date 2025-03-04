@@ -52,11 +52,16 @@ class User extends Authenticatable
     {
         $permissionsArray = [];
 
+        \Log::info($permission);
+
+
         foreach ($this->roles as $role) {
             foreach ($role->permissions as $perm) {
                 $permissionsArray[] = $perm->name;
             }
         }
+
+        \Log::info(collect($permissionsArray)->unique()->contains($permission));
 
         return collect($permissionsArray)->unique()->contains($permission);
     }

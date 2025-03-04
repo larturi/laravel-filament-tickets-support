@@ -22,7 +22,10 @@ DB_PASSWORD=password
 #### Ejecutar Migraciones
 
 ```bash
-./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan migrate:fresh --seed     
+
+# Admin: admin@admin.com::password
+# Agent: agent@agent.com::password
 ```
 
 #### Generar un usuario con Filament
